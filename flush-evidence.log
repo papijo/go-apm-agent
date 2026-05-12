@@ -1,0 +1,309 @@
+observability_agent  | 2026/05/12 05:06:11 INFO starting observability agent
+observability_agent  | 2026/05/12 05:06:11 INFO Prometheus metrics endpoint listening port=2112
+observability_agent  | 2026/05/12 05:06:11 INFO database connected
+observability_agent  | 2026/05/12 05:06:11 INFO sampler configured threshold_ms=5
+observability_agent  | 2026/05/12 05:06:11 INFO agent ready otlp_grpc_port=4317 prometheus_port=2112 flush_interval=1m0s sample_threshold_ms=5
+observability_agent  | 2026/05/12 05:06:11 INFO flusher started interval=1m0s
+observability_agent  | 2026/05/12 05:06:11 INFO OTLP gRPC receiver listening port=4317
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.151
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.387
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.226
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.822
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.025
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.881
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.919
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.217
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.925
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.172
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.775
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.886
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.945
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.022
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=19.946
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.788
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.879
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.980
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.796
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.822
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.002
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.743
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.765
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.360
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.871
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.763
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.322
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.875
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=20.937
+observability_agent  | 2026/05/12 05:06:20 INFO span buffered service=python-service operation="GET /work" duration_ms=21.481
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=26.791
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.918
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=24.569
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.830
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.123
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.960
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.121
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.868
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=22.920
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.820
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=22.838
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=21.024
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.816
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.843
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=21.755
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.997
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=22.711
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.991
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.229
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=21.076
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.533
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.940
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=22.697
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.875
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.344
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.800
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=23.699
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.872
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /upstream" duration_ms=24.167
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="request handler - /work" duration_ms=20.218
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=25.474
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=27.408
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.410
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=23.450
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=25.186
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.195
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.544
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.535
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.504
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.440
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.479
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.252
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.373
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.390
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.306
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.375
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.164
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.382
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.420
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=24.220
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.290
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=21.281
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=22.068
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.483
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.154
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.022
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.402
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.392
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.787
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.559
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.601
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.838
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.231
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.158
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.000
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.306
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.595
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=23.787
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.172
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=23.087
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=24.123
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=21.400
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation=GET duration_ms=22.582
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /upstream" duration_ms=24.588
+observability_agent  | 2026/05/12 05:06:21 INFO span buffered service=node-service operation="GET /work" duration_ms=20.724
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.span.started value=149
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=522
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=3
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:06:38 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:07:12 INFO flushed spans=105 metrics=12 duration_ms=15 at=2026-05-12T05:07:12Z
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.span.started value=155
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=540
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=3
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:07:40 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:08:14 INFO flushed spans=0 metrics=12 duration_ms=12 at=2026-05-12T05:08:14Z
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.span.started value=161
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=558
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=3
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:08:41 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:09:15 INFO flushed spans=0 metrics=12 duration_ms=12 at=2026-05-12T05:09:15Z
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.span.started value=166
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=576
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:09:42 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:10:15 INFO flushed spans=0 metrics=12 duration_ms=3 at=2026-05-12T05:10:15Z
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.span.started value=172
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=594
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:10:43 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:11:17 INFO flushed spans=0 metrics=12 duration_ms=5 at=2026-05-12T05:11:17Z
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.span.started value=178
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=612
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:11:44 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:12:18 INFO flushed spans=0 metrics=12 duration_ms=11 at=2026-05-12T05:12:18Z
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.span.started value=184
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=630
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:12:45 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:13:19 INFO flushed spans=0 metrics=12 duration_ms=2 at=2026-05-12T05:13:19Z
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.span.started value=190
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=648
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:13:46 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:14:20 INFO flushed spans=0 metrics=12 duration_ms=19 at=2026-05-12T05:14:20Z
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.span.started value=196
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=666
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:14:47 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:15:21 INFO flushed spans=0 metrics=12 duration_ms=3 at=2026-05-12T05:15:21Z
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.span.started value=202
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=684
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:15:49 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:16:22 INFO flushed spans=0 metrics=12 duration_ms=3 at=2026-05-12T05:16:22Z
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.span.started value=208
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=702
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:16:50 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:17:24 INFO flushed spans=0 metrics=12 duration_ms=9 at=2026-05-12T05:17:24Z
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.span.started value=214
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=720
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:17:51 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:18:25 INFO flushed spans=0 metrics=12 duration_ms=4 at=2026-05-12T05:18:25Z
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.span.started value=220
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=738
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:18:53 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:19:27 INFO flushed spans=0 metrics=12 duration_ms=3 at=2026-05-12T05:19:27Z
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.span.started value=226
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=753
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=3
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:19:54 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:20:28 INFO flushed spans=0 metrics=12 duration_ms=4 at=2026-05-12T05:20:28Z
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.capacity value=2048
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.span.started value=232
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.span.live value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.processor.span.processed value=771
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.processor.span.queue.size value=3
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.processor.log.queue.size value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=otel.sdk.metric_reader.collection.duration value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=asyncio.process.duration value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=asyncio.process.created value=1
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=http.server.active_requests value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=http.server.duration value=0
+observability_agent  | 2026/05/12 05:20:55 INFO metric buffered service=python-service metric=http.server.response.size value=0
+observability_agent  | 2026/05/12 05:21:29 INFO flushed spans=0 metrics=12 duration_ms=5 at=2026-05-12T05:21:29Z
+observability_agent  | 2026/05/12 05:21:41 INFO shutdown signal received — draining buffer
+observability_agent  | 2026/05/12 05:21:41 INFO agent stopped cleanly
