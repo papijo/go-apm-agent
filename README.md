@@ -1,6 +1,6 @@
 # Distributed Observability Agent
 
-A production-grade telemetry pipeline: Node.js and Python services auto-instrument via OpenTelemetry, export traces and metrics over gRPC to a Go agent that buffers in memory and batch-flushes to PostgreSQL every 60 seconds, and a FastAPI query API exposes the stored data as JSON.
+A production-grade telemetry pipeline: Node.js and Python services auto-instrument via OpenTelemetry, export traces and metrics over gRPC to a Go agent that buffers in memory and batch-flushes to PostgreSQL every 60 seconds. A FastAPI query API exposes the stored data as JSON, and a React dashboard visualises it live.
 
 ---
 
@@ -32,13 +32,19 @@ A production-grade telemetry pipeline: Node.js and Python services auto-instrume
                                                       │              PostgreSQL  :5432               │
                                                       │   spans (trace_id, span_id, parent_id, ...)  │
                                                       │   metrics (service_name, metric_name, ...)   │
-                                                      └─────────────────┬───────────────────────────┘
-                                                                        │ asyncpg
-                                                      ┌─────────────────▼───────────────────────────┐
-                                                      │       FastAPI Query API  :8000               │
-                                                      │   GET /spans  GET /metrics  GET /graph [B2]  │
-                                                      │   GET /health   OpenAPI /docs                │
-                                                      └─────────────────────────────────────────────┘
+                                                      └──────────┬──────────────────────────────────┘
+                                                                 │ asyncpg
+                                          ┌──────────────────────▼──────────────────────────────────┐
+                                          │         FastAPI Query API  :8081                         │
+                                          │  GET /spans  GET /metrics  GET /graph [B2]               │
+                                          │  GET /health   OpenAPI /docs                             │
+                                          └──────────────────────┬──────────────────────────────────┘
+                                                                 │ fetch (CORS)
+                                          ┌──────────────────────▼──────────────────────────────────┐
+                                          │         React Dashboard  :4000  (nginx)                  │
+                                          │  HealthBadge · StatsBar · SpansTable                    │
+                                          │  MetricsTable · DependencyGraph [B2]                    │
+                                          └─────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -54,7 +60,7 @@ A single HTTP request through the system travels the following path:
 5. **Buffering** — spans that pass sampling are appended to a `sync.Mutex`-protected slice in memory. No database write happens yet.
 6. **60-second flush** — a `time.NewTicker(60s)` goroutine fires, calls `buf.Drain()` to atomically swap out the accumulated slice, and writes all records in a **single `pgx.CopyFrom` transaction** to the `spans` table. The same transaction covers any buffered metrics.
 7. **Log evidence** — the agent logs `INFO flushed spans=N metrics=M duration_ms=D` after each successful commit.
-8. **Query** — `GET http://localhost:8000/spans?service_name=node-service` hits the FastAPI query API, which runs a parameterised async query via asyncpg and returns typed JSON (Pydantic-validated).
+8. **Query** — `GET http://localhost:8081/spans?service_name=node-service` hits the FastAPI query API, which runs a parameterised async query via asyncpg and returns typed JSON.
 
 For cross-service calls (`GET /upstream`), Node.js calls python-service with W3C Trace Context headers injected automatically. Python-service creates a child span with `parent_id` pointing to the Node.js outgoing-request span. After a flush, `GET /graph` returns this `node-service → python-service` edge derived from the `parent_id` join.
 
@@ -63,7 +69,7 @@ For cross-service calls (`GET /upstream`), Node.js calls python-service with W3C
 ## Prerequisites
 
 - Docker Desktop (with Compose v2)
-- Ports free on host: `5433`, `13000`, `8001`, `8000`, `14317`, `2112`
+- Ports free on host: `5433`, `13000`, `8001`, `8081`, `14317`, `2112`, `9090`, `3001`, `4000`
 
 > The host ports are intentionally offset from their container-internal equivalents to avoid conflicts with any locally running services.
 
@@ -87,7 +93,10 @@ Key variables (all have defaults):
 | `FLUSH_INTERVAL_SECONDS` | `60` | How often the Go agent flushes to PostgreSQL |
 | `SAMPLE_THRESHOLD_MS` | `5` | B1: spans shorter than this (ms) are dropped |
 | `PROMETHEUS_PORT` | `2112` | B3: port for the Prometheus `/metrics` endpoint |
-| `QUERY_API_PORT` | `8000` | Port for the FastAPI query API |
+| `QUERY_API_PORT` | `8081` | Port for the FastAPI query API |
+| `FRONTEND_PORT` | `4000` | Port for the React dashboard |
+| `VITE_API_URL` | `http://localhost:8081` | Query API URL baked into the frontend bundle at build time |
+| `GRAFANA_PORT` | `3001` | Port for Grafana |
 
 ---
 
@@ -97,19 +106,41 @@ Key variables (all have defaults):
 docker compose up --build
 ```
 
-Docker Compose starts all seven services in dependency order:
+Docker Compose starts all eight services in dependency order:
 
 1. `postgres` — starts first; health-checked with `pg_isready`; `schema.sql` auto-applied on first run
 2. `agent` — waits for postgres healthy; health-checked via Prometheus `/metrics`
-3. `node-service` and `python-service` — wait for agent healthy; begin sending telemetry immediately
+3. `node-service` and `python-service` — wait for agent healthy; begin sending telemetry immediately on first request
 4. `query-api` — waits for postgres healthy; ready to serve queries
 5. `prometheus` — waits for agent healthy; scrapes `/metrics` every 15 seconds
 6. `grafana` — waits for prometheus and postgres; pre-provisioned dashboard loads automatically
+7. `frontend` — waits for query-api healthy; serves the React dashboard via nginx
+
+### Generating traces
+
+The services only produce spans when they receive HTTP requests. Hit any endpoint to trigger telemetry:
+
+```bash
+# Single-service spans
+curl http://localhost:13000/work        # node-service span
+curl http://localhost:8001/work         # python-service span
+
+# Cross-service trace (required for the dependency graph)
+curl http://localhost:13000/upstream    # node-service calls python-service with trace context
+```
+
+Spans are held in the agent's in-memory buffer and written to PostgreSQL on the next 60-second flush cycle. Watch the flush happen:
+
+```bash
+docker compose logs -f agent
+# INFO span buffered service=node-service operation="GET /work" duration_ms=22.165
+# INFO flushed spans=15 metrics=12 duration_ms=18 at=2026-05-12T05:07:12Z
+```
 
 ### Verify the system is healthy
 
 ```bash
-# All seven containers should show (healthy)
+# All eight containers should show (healthy) or running
 docker compose ps
 
 # Node.js service
@@ -124,32 +155,20 @@ curl http://localhost:8001/ping         # {"pong":true}
 curl http://localhost:8001/work         # {"result":"done"}
 
 # Query API (after at least one 60s flush cycle)
-curl http://localhost:8000/health       # {"status":"ok"}
-curl http://localhost:8000/spans        # [...list of span records...]
-curl http://localhost:8000/metrics      # [...latest metric per service/name...]
-curl http://localhost:8000/graph        # {"nodes":[...],"edges":[...]}
+curl http://localhost:8081/             # {"service":"Observability Query API",...}
+curl http://localhost:8081/health       # {"status":"ok"}
+curl http://localhost:8081/spans        # [...list of span records...]
+curl http://localhost:8081/metrics      # [...latest metric per service/name...]
+curl http://localhost:8081/graph        # {"nodes":[...],"edges":[...]}
 
 # Prometheus metrics (B3)
 curl http://localhost:2112/metrics      # Prometheus text format
 
-# OpenAPI interactive docs
-open http://localhost:8000/docs
-
-# Grafana dashboard (B3)
-open http://localhost:3001
-# Login: admin / admin  (change via GRAFANA_PASSWORD in .env)
-
-# Prometheus UI (raw metrics browser)
-open http://localhost:9090
-```
-
-### Watch the 60-second flush
-
-```bash
-docker compose logs -f agent
-# You will see lines like:
-# INFO span buffered service=node-service operation="GET /work" duration_ms=22.165
-# INFO flushed spans=15 metrics=12 duration_ms=18 at=2026-05-12T05:07:12Z
+# Open in browser
+open http://localhost:4000              # React dashboard
+open http://localhost:8081/docs         # OpenAPI interactive docs
+open http://localhost:3001              # Grafana (admin / admin)
+open http://localhost:9090              # Prometheus UI
 ```
 
 ### Graceful shutdown
@@ -166,9 +185,22 @@ docker compose stop agent
 
 ## API Reference
 
-Base URL: `http://localhost:8000`
+Base URL: `http://localhost:8081`
 
-Interactive docs: `http://localhost:8000/docs`
+Interactive docs: `http://localhost:8081/docs`
+
+### `GET /`
+
+Returns service information.
+
+```json
+{
+  "service": "Observability Query API",
+  "version": "1.0.0",
+  "description": "JSON API over the telemetry PostgreSQL store",
+  "endpoints": { "health": "/health", "spans": "/spans", "metrics": "/metrics", "graph": "/graph", "docs": "/docs" }
+}
+```
 
 ### `GET /health`
 
@@ -190,7 +222,7 @@ Returns stored spans, newest first.
 | `limit` | integer (1–1000) | Max rows to return (default 100) |
 
 ```bash
-curl "http://localhost:8000/spans?service_name=node-service&limit=5"
+curl "http://localhost:8081/spans?service_name=node-service&limit=5"
 ```
 
 ### `GET /metrics`
@@ -226,7 +258,7 @@ An edge `A → B` exists when a span belonging to service B has a `parent_id` th
 
 The Go agent drops any span whose `duration_ms` is below `SAMPLE_THRESHOLD_MS` (default `5`). Dropped spans are counted in the `otlp_spans_dropped_total` Prometheus counter and never written to PostgreSQL.
 
-To test: set `SAMPLE_THRESHOLD_MS=100` in `.env`, restart `docker compose up -d agent`, then generate traffic. All spans (which are < 100 ms) will be dropped.
+To test: set `SAMPLE_THRESHOLD_MS=100` in `.env`, restart `docker compose up -d agent`, then generate traffic. All short spans will be dropped.
 
 ### B2 — Service Dependency Graph
 
@@ -243,7 +275,7 @@ JOIN spans AS parent_span
 GROUP BY caller, callee
 ```
 
-Hit `GET /upstream` on the Node.js service a few times to generate cross-service traces, then call `GET /graph` to see the `node-service → python-service` edge.
+Hit `GET /upstream` on the Node.js service a few times to generate cross-service traces, then call `GET /graph` (or view the Dependency Graph tab in the dashboard) to see the `node-service → python-service` edge.
 
 ### B3 — Prometheus Metrics Endpoint + Grafana Dashboard
 
@@ -299,14 +331,14 @@ Timestamps show exactly 60-second intervals between flush cycles, confirming the
 /
 ├── AGENTS.md                    ← AI agent context and requirements
 ├── README.md                    ← this file
-├── docker-compose.yml           ← orchestrates all five services
+├── docker-compose.yml           ← orchestrates all eight services
 ├── .env.example                 ← all environment variables documented
 ├── schema.sql                   ← idempotent PostgreSQL schema
 │
 ├── docs/
 │   ├── technical-spec.md        ← architecture decisions and component specs
 │   ├── implementation-plan.md   ← phased build plan with progress tracking
-│   ├── architecture-explained.md← plain-English explanation of how it all fits together
+│   ├── system-walkthrough.md    ← end-to-end explanation for interviews
 │   └── flush-evidence.log       ← captured agent logs proving 60s batch flush
 │
 ├── agent/                       ← Go OTLP agent
@@ -327,13 +359,32 @@ Timestamps show exactly 60-second intervals between flush cycles, confirming the
 ├── python-service/              ← Python FastAPI app
 │   └── main.py                  ← routes; OTel injected by opentelemetry-instrument CLI
 │
-└── query-api/                   ← FastAPI JSON query API
-    ├── main.py                  ← app factory, router wiring, lifespan
-    ├── db.py                    ← asyncpg pool with FastAPI lifespan
-    ├── models.py                ← Pydantic response models
-    └── routers/
-        ├── health.py            ← GET /health
-        ├── spans.py             ← GET /spans (with filters)
-        ├── metrics.py           ← GET /metrics (DISTINCT ON latest)
-        └── graph.py             ← GET /graph  [B2]
+├── query-api/                   ← FastAPI JSON query API
+│   ├── main.py                  ← CORS middleware, root info route, router wiring
+│   ├── db.py                    ← asyncpg pool with FastAPI lifespan
+│   ├── models.py                ← Pydantic response models
+│   └── routers/
+│       ├── health.py            ← GET /health
+│       ├── spans.py             ← GET /spans (with filters)
+│       ├── metrics.py           ← GET /metrics (DISTINCT ON latest)
+│       └── graph.py             ← GET /graph  [B2]
+│
+├── frontend/                    ← React + Vite dashboard
+│   └── src/
+│       ├── api/client.ts        ← typed fetch wrappers for all 4 endpoints
+│       ├── App.tsx              ← QueryClientProvider root
+│       └── components/
+│           ├── Dashboard.tsx    ← tabbed layout (Spans / Metrics / Dependency Graph)
+│           ├── HealthBadge.tsx  ← live API health indicator
+│           ├── StatsBar.tsx     ← summary cards + spans-by-service bar chart
+│           ├── SpansTable.tsx   ← filterable spans table
+│           ├── MetricsTable.tsx ← latest metrics per service
+│           └── DependencyGraph.tsx ← force-directed canvas graph [B2]
+│
+├── prometheus/
+│   └── prometheus.yml           ← scrape config (agent:2112 every 15s)
+│
+└── grafana/
+    ├── provisioning/            ← auto-provisioned datasources
+    └── dashboards/              ← pre-built observability dashboard JSON
 ```
