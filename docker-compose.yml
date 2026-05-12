@@ -1,0 +1,203 @@
+networks:
+  telemetry:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  grafana_data:
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — Telemetry store
+  # schema.sql is auto-applied on first run via initdb volume mount.
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: observability_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    networks:
+      - telemetry
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ---------------------------------------------------------------------------
+  # Go Agent — OTLP receiver + 60s batch flusher
+  # ---------------------------------------------------------------------------
+  agent:
+    build: ./agent
+    container_name: observability_agent
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "14317:4317"
+      - "${PROMETHEUS_PORT:-2112}:2112"
+    networks:
+      - telemetry
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:2112/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # Node.js Service — OTel auto-instrumented Express app
+  # ---------------------------------------------------------------------------
+  node-service:
+    build: ./node-service
+    container_name: observability_node
+    restart: unless-stopped
+    environment:
+      OTEL_SERVICE_NAME: node-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL}
+      PORT: 3000
+    ports:
+      - "13000:3000"
+    networks:
+      - telemetry
+    depends_on:
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # Python Service — OTel auto-instrumented FastAPI app
+  # ---------------------------------------------------------------------------
+  python-service:
+    build: ./python-service
+    container_name: observability_python
+    restart: unless-stopped
+    environment:
+      OTEL_SERVICE_NAME: python-service
+      # http:// scheme signals insecure gRPC to the Python exporter (no TLS)
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://agent:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    ports:
+      - "8001:8001"
+    networks:
+      - telemetry
+    depends_on:
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # Prometheus — scrapes Go agent /metrics every 15s
+  # ---------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: observability_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    networks:
+      - telemetry
+    depends_on:
+      agent:
+        condition: service_healthy
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+
+  # ---------------------------------------------------------------------------
+  # Grafana — visualises Prometheus counters + PostgreSQL spans/metrics (B3)
+  # ---------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.3.1
+    container_name: observability_grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Pass DB credentials so the datasource provisioning file can substitute them
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    networks:
+      - telemetry
+    depends_on:
+      - prometheus
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # FastAPI Query API — JSON API over PostgreSQL (Phase 7)
+  # ---------------------------------------------------------------------------
+  query-api:
+    build: ./query-api
+    container_name: observability_query_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${QUERY_API_PORT:-8000}:8000"
+    networks:
+      - telemetry
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # React + Vite Frontend Dashboard — consumes query-api (Phase 11)
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    container_name: observability_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    networks:
+      - telemetry
+    depends_on:
+      query-api:
+        condition: service_healthy

@@ -1,0 +1,29 @@
+apiVersion: 1
+
+datasources:
+  # --------------------------------------------------------------------------
+  # Prometheus — scrapes the Go agent's /metrics endpoint
+  # --------------------------------------------------------------------------
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      timeInterval: '15s'
+      httpMethod: POST
+
+  # --------------------------------------------------------------------------
+  # PostgreSQL — direct access to spans and metrics tables
+  # --------------------------------------------------------------------------
+  - name: PostgreSQL
+    type: postgres
+    url: postgres:5432
+    database: ${POSTGRES_DB}
+    user: ${POSTGRES_USER}
+    secureJsonData:
+      password: ${POSTGRES_PASSWORD}
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1600
+      timescaledb: false

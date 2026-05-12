@@ -1,0 +1,350 @@
+{
+  "id": null,
+  "uid": "observability-agent",
+  "title": "Distributed Observability Agent",
+  "description": "Go agent telemetry pipeline — Prometheus counters + PostgreSQL span and metric data",
+  "tags": ["observability", "otlp", "opentelemetry"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "panels": [
+
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Spans Received",
+      "description": "Total spans received via OTLP/gRPC since agent start",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "otlp_spans_received_total",
+          "legendFormat": "received",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Spans Dropped (B1 Sampling)",
+      "description": "Spans dropped because duration_ms < SAMPLE_THRESHOLD_MS",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "otlp_spans_dropped_total",
+          "legendFormat": "dropped",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "orange", "value": null }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Spans Flushed to PostgreSQL",
+      "description": "Total spans successfully written to the spans table",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "otlp_spans_flushed_total",
+          "legendFormat": "flushed",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Metrics Received",
+      "description": "Total metric data points received via OTLP",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "otlp_metrics_received_total",
+          "legendFormat": "metrics",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "purple", "value": null }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Sampling Drop Rate",
+      "description": "Percentage of received spans dropped by B1 sampler",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "100 * otlp_spans_dropped_total / clamp_min(otlp_spans_received_total, 1)",
+          "legendFormat": "drop %",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "red", "value": 90 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Span Throughput Over Time",
+      "description": "Rate of spans received, dropped, and flushed per minute",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "increase(otlp_spans_received_total[1m])",
+          "legendFormat": "received / min",
+          "refId": "A"
+        },
+        {
+          "expr": "increase(otlp_spans_dropped_total[1m])",
+          "legendFormat": "dropped / min",
+          "refId": "B"
+        },
+        {
+          "expr": "increase(otlp_spans_flushed_total[1m])",
+          "legendFormat": "flushed / min",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "dropped / min" }, "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "flushed / min" }, "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }] }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Flush Duration (seconds)",
+      "description": "Time taken per 60s batch flush transaction to PostgreSQL",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(otlp_flush_duration_seconds_bucket[5m]))",
+          "legendFormat": "p50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(otlp_flush_duration_seconds_bucket[5m]))",
+          "legendFormat": "p95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, rate(otlp_flush_duration_seconds_bucket[5m]))",
+          "legendFormat": "p99",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+
+    {
+      "id": 8,
+      "type": "table",
+      "title": "Spans by Service (PostgreSQL)",
+      "description": "Total span count per service stored in PostgreSQL",
+      "gridPos": { "x": 0, "y": 12, "w": 8, "h": 8 },
+      "datasource": { "type": "postgres", "uid": "PostgreSQL" },
+      "targets": [
+        {
+          "rawSql": "SELECT service_name, COUNT(*) AS span_count, ROUND(AVG(duration_ms)::numeric, 2) AS avg_duration_ms, ROUND(MIN(duration_ms)::numeric, 2) AS min_ms, ROUND(MAX(duration_ms)::numeric, 2) AS max_ms FROM spans GROUP BY service_name ORDER BY span_count DESC",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "sortBy": [{ "displayName": "span_count", "desc": true }]
+      },
+      "fieldConfig": {
+        "defaults": { "custom": { "align": "auto" } }
+      }
+    },
+
+    {
+      "id": 9,
+      "type": "table",
+      "title": "Latest Spans (PostgreSQL)",
+      "description": "Most recent 20 spans written to PostgreSQL after flush",
+      "gridPos": { "x": 8, "y": 12, "w": 16, "h": 8 },
+      "datasource": { "type": "postgres", "uid": "PostgreSQL" },
+      "targets": [
+        {
+          "rawSql": "SELECT started_at, service_name, operation, ROUND(duration_ms::numeric, 2) AS duration_ms, trace_id FROM spans ORDER BY started_at DESC LIMIT 20",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {},
+      "fieldConfig": {
+        "defaults": { "custom": { "align": "auto" } },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "duration_ms" },
+            "properties": [{ "id": "unit", "value": "ms" }]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": 10,
+      "type": "table",
+      "title": "Latest Metrics by Service (PostgreSQL)",
+      "description": "Most recent value per (service, metric) pair — mirrors GET /metrics",
+      "gridPos": { "x": 0, "y": 20, "w": 12, "h": 8 },
+      "datasource": { "type": "postgres", "uid": "PostgreSQL" },
+      "targets": [
+        {
+          "rawSql": "SELECT DISTINCT ON (service_name, metric_name) service_name, metric_name, ROUND(value::numeric, 4) AS value, unit, recorded_at FROM metrics ORDER BY service_name, metric_name, recorded_at DESC LIMIT 50",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {},
+      "fieldConfig": {
+        "defaults": { "custom": { "align": "auto" } }
+      }
+    },
+
+    {
+      "id": 11,
+      "type": "table",
+      "title": "Service Dependency Graph (PostgreSQL)",
+      "description": "Cross-service call edges from parent_id joins — mirrors GET /graph",
+      "gridPos": { "x": 12, "y": 20, "w": 12, "h": 8 },
+      "datasource": { "type": "postgres", "uid": "PostgreSQL" },
+      "targets": [
+        {
+          "rawSql": "SELECT parent_span.service_name AS caller, child_span.service_name AS callee, COUNT(*) AS call_count FROM spans AS child_span JOIN spans AS parent_span ON child_span.parent_id = parent_span.span_id AND child_span.service_name != parent_span.service_name GROUP BY caller, callee ORDER BY call_count DESC",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {},
+      "fieldConfig": {
+        "defaults": { "custom": { "align": "auto" } }
+      }
+    }
+
+  ]
+}
